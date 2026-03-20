@@ -1,5 +1,8 @@
 from pydantic import BaseModel
 from sqlalchemy import select, insert, delete, update
+from sqlalchemy.exc import NoResultFound
+
+from src.exceptions import ObjectNotFound
 
 
 class BaseRepository:
@@ -24,6 +27,16 @@ class BaseRepository:
 
         if not model:
             return None
+
+        return self.schema.model_validate(model, from_attributes=True)
+
+    async def get_one(self, **filter_by):
+        try:
+            query = select(self.model).filter_by(**filter_by)
+            result = await self.session.execute(query)
+            model = result.scalars().one()
+        except NoResultFound:
+            raise ObjectNotFound
 
         return self.schema.model_validate(model, from_attributes=True)
 
