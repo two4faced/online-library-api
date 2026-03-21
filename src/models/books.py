@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import ForeignKey, String, Text
 
-from src.db import Base
+from src.database.db import Base
 
 
 class BooksORM(Base):

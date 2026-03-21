@@ -15,5 +15,4 @@ class UsersRepository(BaseRepository):
         result = await self.session.execute(query)
         model = result.scalars().one()
 
-        print(model.__dict__)
         return UserWithHashedPasswordDTO.model_validate(model, from_attributes=True)

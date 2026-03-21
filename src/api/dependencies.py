@@ -1,7 +1,17 @@
-from src.services.auth import AuthService
+from typing import Annotated, Any
 
-auth_service = AuthService()
+from fastapi import Depends
+from typing_extensions import AsyncGenerator
+
+from src.database.db import async_session_maker
+from src.database.db_manager import DBManager
+from src.services.auth import AuthService
 
 
 def get_auth_service() -> AuthService:
-    return auth_service
+    return AuthService()
+
+
+async def get_db() -> AsyncGenerator[DBManager, Any]:
+    async with DBManager(session_factory=async_session_maker) as db:
+        yield db
