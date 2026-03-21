@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response
 
 from src.api.dependencies import get_auth_service
 from src.db import async_session_maker
@@ -27,10 +27,18 @@ async def registration(
 
 
 @router.post('/login')
-async def login(credentials: LoginUserDTO, auth_service: AuthService = Depends(get_auth_service)):
+async def login(credentials: LoginUserDTO, response: Response, auth_service: AuthService = Depends(get_auth_service)):
     async with async_session_maker() as session:
         user = await UsersRepository(session).get_user_with_hashed_password(email=credentials.email)
         if auth_service.verify_password(credentials.password, user.hashed_password):
             token = auth_service.create_access_token(user_id=str(user.id))
+            response.set_cookie('access_token', token)
             return {'access_token': token}
         return None
+
+
+@router.post('/logout')
+async def logout(response: Response):
+    response.delete_cookie('access_token')
+
+    return {'status': 200}

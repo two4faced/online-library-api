@@ -12,6 +12,9 @@ class AuthService:
         JWT_ACCESS_COOKIE_NAME='access_token',
         JWT_ACCESS_TOKEN_EXPIRES=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
         JWT_TOKEN_LOCATION=['cookies'],
+        JWT_COOKIE_SAMESITE='lax',
+        JWT_COOKIE_HTTP_ONLY=True,
+        JWT_COOKIE_SECURE=True,
     )
 
     def __init__(self):
