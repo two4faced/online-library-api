@@ -5,6 +5,7 @@ from fastapi import FastAPI
 import uvicorn
 
 from src.api.auth import router as router_auth
+from src.api.books import router as router_books
 
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -12,6 +13,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 app = FastAPI()
 
 app.include_router(router_auth)
+app.include_router(router_books)
 
 
 if __name__ == '__main__':

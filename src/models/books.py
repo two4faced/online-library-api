@@ -8,7 +8,7 @@ class BooksORM(Base):
     __tablename__ = 'books'
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    author_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
+    author_id: Mapped[int] = mapped_column(ForeignKey('users.id'), nullable=True)
     title: Mapped[str] = mapped_column(String(90))
     description: Mapped[str] = mapped_column(Text)
     volume: Mapped[int]

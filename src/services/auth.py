@@ -30,3 +30,6 @@ class AuthService:
     def create_access_token(self, user_id: str):
         token = self.security.create_access_token(uid=user_id)
         return token
+
+    def decode_token(self, token: str):
+        return self.security._decode_token(token)  # noqa
