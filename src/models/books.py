@@ -13,3 +13,13 @@ class BooksORM(Base):
     description: Mapped[str] = mapped_column(Text)
     volume: Mapped[int]
     rating: Mapped[float] = mapped_column(default=0.0)
+
+
+class BookChaptersORM(Base):
+    __tablename__ = 'book_chapters'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    book_id: Mapped[int] = mapped_column(ForeignKey('books.id'))
+    chapter_number: Mapped[int]
+    chapter_name: Mapped[str] = mapped_column(String(150))
+    content: Mapped[str] = mapped_column(Text)
