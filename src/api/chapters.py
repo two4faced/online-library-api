@@ -22,7 +22,11 @@ async def get_chapter(book_id: int, chapter_number: int, db: DBManager = Depends
 async def add_chapter(
     book_id: int, chapter_data: AddBookChapterRequestDTO, db: DBManager = Depends(get_db)
 ):
-    new_chapter_data = AddBookChapterDTO(book_id=book_id, **chapter_data.model_dump())
+    chapter_number = await db.chapters.get_next_chapter_number(book_id=book_id)
+
+    new_chapter_data = AddBookChapterDTO(
+        book_id=book_id, chapter_number=chapter_number, **chapter_data.model_dump()
+    )
     new_chapter = await db.chapters.add(new_chapter_data)
 
     await db.commit()

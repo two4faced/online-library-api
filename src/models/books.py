@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import ForeignKey, String, Text
+from sqlalchemy import ForeignKey, String, Text, UniqueConstraint
 
 from src.database.db import Base
 
@@ -23,3 +23,5 @@ class BookChaptersORM(Base):
     chapter_number: Mapped[int]
     chapter_name: Mapped[str] = mapped_column(String(150))
     content: Mapped[str] = mapped_column(Text)
+
+    __table_args__ = (UniqueConstraint('book_id', 'chapter_number'),)
