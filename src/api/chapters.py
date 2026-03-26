@@ -13,9 +13,9 @@ async def get_all_chapters(book_id: int, db: DBManager = Depends(get_db)):
     return await db.chapters.get_all(book_id=book_id)
 
 
-@router.get('/{book_id}/{chapter_number}', summary='get one chapter')
+@router.get('/{book_id}/{chapter_number}', summary='get one chapter with content')
 async def get_chapter(book_id: int, chapter_number: int, db: DBManager = Depends(get_db)):
-    return await db.chapters.get_all(book_id=book_id, chapter_number=chapter_number)
+    return await db.chapters.get_one(book_id=book_id, chapter_number=chapter_number)
 
 
 @router.post('/{book_id}', summary='add new chapter')
