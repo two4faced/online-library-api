@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Response
 
-from src.api.dependencies import get_auth_service, get_db
+from src.api.dependencies import get_auth_service, get_db, get_user_id
 from src.database.db_manager import DBManager
 from src.schemas.users import RegisterUserRequestDTO, RegisterUserDTO, LoginUserDTO
 from src.services.auth import AuthService
@@ -39,6 +39,14 @@ async def login(
         response.set_cookie('access_token', token)
         return {'access_token': token}
     return None
+
+
+@router.get('/me')
+async def get_me(
+    user_id=Depends(get_user_id),
+    db: DBManager = Depends(get_db),
+):
+    return await db.users.get_one(id=user_id)
 
 
 @router.post('/logout')

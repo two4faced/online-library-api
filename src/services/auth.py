@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from jose import jwt
 from authx import AuthXConfig, AuthX
 from passlib.context import CryptContext
 
@@ -32,4 +33,12 @@ class AuthService:
         return token
 
     def decode_token(self, token: str):
-        return self.security._decode_token(token)  # noqa
+        payload = jwt.decode(
+            token,
+            self.config.JWT_SECRET_KEY,
+            algorithms=['HS256'],
+        )
+        return payload
+
+
+auth_service = AuthService()

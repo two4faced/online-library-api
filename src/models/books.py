@@ -24,4 +24,6 @@ class BookChaptersORM(Base):
     chapter_name: Mapped[str] = mapped_column(String(150))
     content: Mapped[str] = mapped_column(Text)
 
-    __table_args__ = (UniqueConstraint('book_id', 'chapter_number'),)
+    __table_args__ = (
+        UniqueConstraint('book_id', 'chapter_number', name='uq_book_id_chapter_number'),
+    )

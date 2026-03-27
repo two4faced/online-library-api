@@ -12,6 +12,7 @@ class RegisterUserDTO(BaseModel):
     name: str
     surname: str
     email: EmailStr
+    role: str = Field(default='READER')
     hashed_password: str
 
 
@@ -25,6 +26,7 @@ class UserDTO(BaseModel):
     name: str
     surname: str
     email: EmailStr
+    role: str
 
 
 class UserWithHashedPasswordDTO(UserDTO):
