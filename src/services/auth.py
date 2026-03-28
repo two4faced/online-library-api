@@ -36,7 +36,7 @@ class AuthService:
         payload = jwt.decode(
             token,
             self.config.JWT_SECRET_KEY,
-            algorithms=['HS256'],
+            algorithms=[self.config.JWT_ALGORITHM],
         )
         return payload
 

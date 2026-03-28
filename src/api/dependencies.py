@@ -24,4 +24,4 @@ def get_user_id(token: str = Depends(get_access_token)) -> int:
 
 
 def get_auth_service() -> AuthService:
-    return AuthService()
+    return auth_service
