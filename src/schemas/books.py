@@ -25,4 +25,3 @@ class PatchBookDTO(BaseModel):
     title: str | None = Field(default=None, max_length=90)
     description: str | None = Field(default=None, max_length=2000)
     volume: int | None = Field(default=None, le=1500)
-    rating: float | None = Field(default=None, ge=0, le=10)

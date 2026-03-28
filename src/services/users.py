@@ -4,7 +4,7 @@ from src.services.auth import auth_service
 from src.services.base import BaseService
 
 
-class UserService(BaseService):
+class UsersService(BaseService):
     async def registration(self, credentials: RegisterUserRequestDTO):
         new_user_data = RegisterUserDTO(
             name=credentials.name,

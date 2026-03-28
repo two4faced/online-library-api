@@ -4,7 +4,7 @@ from src.api.dependencies import get_db, get_user_id
 from src.database.db_manager import DBManager
 from src.exceptions import InvalidCredentialsException, InvalidCredentialsHTTPException
 from src.schemas.users import RegisterUserRequestDTO, LoginUserDTO
-from src.services.user import UserService
+from src.services.users import UsersService
 
 router = APIRouter(prefix='/auth', tags=['authentication and authorization'])
 
@@ -14,14 +14,14 @@ async def registration(
     credentials: RegisterUserRequestDTO,
     db: DBManager = Depends(get_db),
 ):
-    await UserService(db).registration(credentials)
+    await UsersService(db).registration(credentials)
     return {'status': 200}
 
 
 @router.post('/login')
 async def login(credentials: LoginUserDTO, response: Response, db: DBManager = Depends(get_db)):
     try:
-        token = await UserService(db).login(credentials)
+        token = await UsersService(db).login(credentials)
     except InvalidCredentialsException:
         raise InvalidCredentialsHTTPException
 
@@ -34,7 +34,7 @@ async def get_me(
     user_id=Depends(get_user_id),
     db: DBManager = Depends(get_db),
 ):
-    return await UserService(db).get_me(user_id)
+    return await UsersService(db).get_me(user_id)
 
 
 @router.post('/logout')
