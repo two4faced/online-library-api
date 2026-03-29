@@ -1,6 +1,6 @@
 from sqlalchemy import select, func
 
-from src.models.books import BookChaptersORM
+from src.models.chapters import BookChaptersORM
 from src.repositories.base import BaseRepository
 from src.schemas.chapters import BookChaptersDTO, BookChaptersContentDTO
 
