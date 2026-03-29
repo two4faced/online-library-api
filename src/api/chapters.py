@@ -1,10 +1,9 @@
 from fastapi import APIRouter
 from fastapi.params import Depends
 
-from src.api.dependencies import get_db
+from src.dependencies.dependencies import get_db
 from src.database.db_manager import DBManager
-from src.schemas.chapters import AddBookChapterRequestDTO, AddBookChapterDTO
-from src.services.books import BooksService
+from src.schemas.chapters import AddBookChapterRequestDTO
 from src.services.chapters import ChaptersService
 
 router = APIRouter(prefix='/books/chapters', tags=['chapters'])

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Response
 
-from src.api.dependencies import get_db, get_user_id
+from src.dependencies.dependencies import get_db, get_user_id
 from src.database.db_manager import DBManager
 from src.exceptions import InvalidCredentialsException, InvalidCredentialsHTTPException
 from src.schemas.users import RegisterUserRequestDTO, LoginUserDTO

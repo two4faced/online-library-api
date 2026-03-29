@@ -16,6 +16,10 @@ class InvalidCredentialsException(OnLibraryException):
     detail = 'invalid password or username'
 
 
+class InvalidTokenException(OnLibraryException):
+    detail = 'invalid token'
+
+
 class OnLibraryHTTPException(HTTPException):
     status_code = 500
     detail = 'unknown error'
@@ -27,3 +31,13 @@ class OnLibraryHTTPException(HTTPException):
 class InvalidCredentialsHTTPException(OnLibraryHTTPException):
     status_code = 401
     detail = 'invalid password or username'
+
+
+class InvalidTokenHTTPException(OnLibraryHTTPException):
+    status_code = 401
+    detail = 'invalid token'
+
+
+class NotEnoughPermissionsHTTPException(OnLibraryHTTPException):
+    status_code = 403
+    detail = 'not enough permissions'

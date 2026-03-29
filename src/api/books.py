@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Depends
 
-from src.api.dependencies import get_db, get_user_id
+from src.dependencies.dependencies import get_db, get_user_id
 from src.database.db_manager import DBManager
-from src.schemas.books import AddBookRequestDTO, AddBookDTO, PatchBookDTO
+from src.dependencies.role_checker import RoleChecker
+from src.models.users import UserRole
+from src.schemas.books import AddBookRequestDTO, PatchBookDTO
 from src.services.books import BooksService
 
 router = APIRouter(prefix='/books', tags=['books'])
@@ -18,7 +20,7 @@ async def get_one_book(book_id: int, db: DBManager = Depends(get_db)):
     return await BooksService(db).get_one_book(book_id=book_id)
 
 
-@router.post('', summary='add new book')
+@router.post('', summary='add new book', dependencies=[Depends(RoleChecker([UserRole.AUTHOR]))])
 async def add_book(
     book_data: AddBookRequestDTO,
     db: DBManager = Depends(get_db),

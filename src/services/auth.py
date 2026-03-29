@@ -1,10 +1,11 @@
 from datetime import timedelta
 
-from jose import jwt
+from jose import jwt, JWTError
 from authx import AuthXConfig, AuthX
 from passlib.context import CryptContext
 
 from src.config import settings
+from src.exceptions import InvalidTokenException
 
 
 class AuthService:
@@ -33,12 +34,15 @@ class AuthService:
         return token
 
     def decode_token(self, token: str):
-        payload = jwt.decode(
-            token,
-            self.config.JWT_SECRET_KEY,
-            algorithms=[self.config.JWT_ALGORITHM],
-        )
-        return payload
+        try:
+            payload = jwt.decode(
+                token,
+                self.config.JWT_SECRET_KEY,
+                algorithms=[self.config.JWT_ALGORITHM],
+            )
+            return payload
+        except JWTError:
+            raise InvalidTokenException
 
 
 auth_service = AuthService()
