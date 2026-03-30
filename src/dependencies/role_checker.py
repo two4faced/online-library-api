@@ -14,3 +14,6 @@ class RoleChecker:
         if user.role not in self.allowed_roles:
             raise NotEnoughPermissionsHTTPException
         return True
+
+
+author_or_admin_depends = Depends(RoleChecker([UserRole.AUTHOR, UserRole.ADMIN]))

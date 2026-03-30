@@ -5,7 +5,11 @@ from fastapi import Request, Depends
 
 from src.database.db import async_session_maker
 from src.database.db_manager import DBManager
-from src.exceptions import InvalidTokenException, InvalidTokenHTTPException
+from src.exceptions import (
+    InvalidTokenException,
+    InvalidTokenHTTPException,
+    NotAuthenticatedHTTPException,
+)
 from src.services.auth import AuthService, auth_service
 
 
@@ -16,6 +20,11 @@ async def get_db() -> AsyncGenerator[DBManager, Any]:
 
 def get_access_token(request: Request) -> str:
     token = request.cookies.get('access_token', None)
+
+    if not token:
+        raise NotAuthenticatedHTTPException
+
+    auth_service.decode_token(token)
     return token
 
 

@@ -14,10 +14,7 @@ class GenresORM(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(String(30))
-    books: Mapped[list['BooksORM']] = relationship(
-        back_populates='genres',
-        secondary='book_genres'
-    )
+    books: Mapped[list['BooksORM']] = relationship(back_populates='genres', secondary='book_genres')
 
 
 class BookGenresORM(Base):

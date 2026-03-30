@@ -1,8 +1,9 @@
 from fastapi import APIRouter
 from fastapi.params import Depends
 
-from src.dependencies.dependencies import get_db
+from src.dependencies.dependencies import get_db, get_access_token
 from src.database.db_manager import DBManager
+from src.dependencies.role_checker import author_or_admin_depends
 from src.schemas.chapters import AddBookChapterRequestDTO
 from src.services.chapters import ChaptersService
 
@@ -14,12 +15,16 @@ async def get_all_chapters(book_id: int, db: DBManager = Depends(get_db)):
     return await ChaptersService(db).get_all_chapters(book_id=book_id)
 
 
-@router.get('/{book_id}/{chapter_number}', summary='get one chapter with content')
+@router.get(
+    '/{book_id}/{chapter_number}',
+    summary='get one chapter with content',
+    dependencies=[Depends(get_access_token)],
+)
 async def get_chapter(book_id: int, chapter_number: int, db: DBManager = Depends(get_db)):
     return await ChaptersService(db).get_chapter(book_id=book_id, chapter_number=chapter_number)
 
 
-@router.post('/{book_id}', summary='add new chapter')
+@router.post('/{book_id}', summary='add new chapter', dependencies=[author_or_admin_depends])
 async def add_chapter(
     book_id: int, chapter_data: AddBookChapterRequestDTO, db: DBManager = Depends(get_db)
 ):

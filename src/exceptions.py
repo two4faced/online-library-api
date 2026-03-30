@@ -38,6 +38,11 @@ class InvalidTokenHTTPException(OnLibraryHTTPException):
     detail = 'invalid token'
 
 
+class NotAuthenticatedHTTPException(OnLibraryHTTPException):
+    status_code = 401
+    detail = 'you are not logged in'
+
+
 class NotEnoughPermissionsHTTPException(OnLibraryHTTPException):
     status_code = 403
     detail = 'not enough permissions'

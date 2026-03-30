@@ -20,7 +20,5 @@ class BooksORM(Base):
     rating: Mapped[float] = mapped_column(default=0.0)
 
     genres: Mapped[list['GenresORM']] = relationship(
-        back_populates='books',
-        secondary='book_genres'
+        back_populates='books', secondary='book_genres'
     )
-
