@@ -7,3 +7,12 @@ class AddGenreDTO(BaseModel):
 
 class GenreDTO(AddGenreDTO):
     id: int
+
+
+class AddBookGenreDTO(BaseModel):
+    book_id: int
+    genre_id: int
+
+
+class BookGenreDTO(AddBookGenreDTO):
+    id: int

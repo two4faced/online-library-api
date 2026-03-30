@@ -47,6 +47,10 @@ class BaseRepository:
 
         return self.schema.model_validate(model, from_attributes=True)
 
+    async def add_bulk(self, data: list[BaseModel]):
+        add_stmt = insert(self.model).values([item.model_dump() for item in data])
+        await self.session.execute(add_stmt)
+
     async def delete(self, **filter_by):
         del_stmt = delete(self.model).filter_by(**filter_by)
         await self.session.execute(del_stmt)

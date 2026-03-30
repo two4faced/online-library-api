@@ -1,4 +1,5 @@
 from src.schemas.books import AddBookRequestDTO, AddBookDTO, PatchBookDTO
+from src.schemas.genres import AddBookGenreDTO
 from src.services.base import BaseService
 
 
@@ -12,6 +13,10 @@ class BooksService(BaseService):
     async def add_book(self, book_data: AddBookRequestDTO, user_id: int):
         new_book_data = AddBookDTO(author_id=user_id, **book_data.model_dump())
         new_book = await self.db.books.add(new_book_data)
+
+        book_genres_data = [AddBookGenreDTO(book_id=new_book.id, genre_id=gen_id) for gen_id in book_data.genres]
+        await self.db.book_genres.add_bulk(book_genres_data)
+
         await self.db.commit()
         return new_book
 
