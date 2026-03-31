@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 
 class AddBookRequestDTO(BaseModel):
@@ -25,7 +25,16 @@ class BookDTO(BaseModel):
     rating: float = Field(default=0.0, ge=0, le=10)
 
 
+class RequestPatchBookDTO(BaseModel):
+    title: str | None = Field(default=None, max_length=90)
+    description: str | None = Field(default=None, max_length=2000)
+    volume: int | None = Field(default=None, le=1500)
+    genres: list[int] | None = Field(None)
+
+
 class PatchBookDTO(BaseModel):
     title: str | None = Field(default=None, max_length=90)
     description: str | None = Field(default=None, max_length=2000)
     volume: int | None = Field(default=None, le=1500)
+
+    model_config = ConfigDict(extra='ignore')

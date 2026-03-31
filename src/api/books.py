@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from src.dependencies.dependencies import get_db, get_user_id
 from src.database.db_manager import DBManager
 from src.dependencies.role_checker import author_or_admin_depends
-from src.schemas.books import AddBookRequestDTO, PatchBookDTO
+from src.schemas.books import AddBookRequestDTO, RequestPatchBookDTO
 from src.services.books import BooksService
 
 router = APIRouter(prefix='/books', tags=['books'])
@@ -36,6 +36,8 @@ async def delete_book(book_id: int, db: DBManager = Depends(get_db)):
 
 
 @router.patch('{book_id}', summary='partially change book', dependencies=[author_or_admin_depends])
-async def change_book(book_data: PatchBookDTO, book_id: int, db: DBManager = Depends(get_db)):
+async def change_book(
+    book_data: RequestPatchBookDTO, book_id: int, db: DBManager = Depends(get_db)
+):
     await BooksService(db).change_book(book_data=book_data, book_id=book_id)
     return {'status': 200}
