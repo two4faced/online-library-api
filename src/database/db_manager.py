@@ -1,6 +1,7 @@
 from src.repositories.books import BooksRepository
 from src.repositories.chapters import BookChaptersRepository
 from src.repositories.genres import GenresRepository, BookGenresRepository
+from src.repositories.reviews import ReviewsRepository
 from src.repositories.users import UsersRepository
 
 
@@ -16,6 +17,7 @@ class DBManager:
         self.chapters = BookChaptersRepository(self.session)
         self.genres = GenresRepository(self.session)
         self.book_genres = BookGenresRepository(self.session)
+        self.reviews = ReviewsRepository(self.session)
 
         return self
 
