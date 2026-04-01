@@ -5,10 +5,10 @@ from src.services.base import BaseService
 
 class BooksService(BaseService):
     async def get_all_books(self):
-        return await self.db.books.get_all()
+        return await self.db.books.get_books_with_genres()
 
     async def get_one_book(self, book_id: int):
-        return await self.db.books.get_one_or_none(id=book_id)
+        return await self.db.books.get_one_book_with_genres(id=book_id)
 
     async def add_book(self, book_data: AddBookRequestDTO, user_id: int):
         new_book_data = AddBookDTO(author_id=user_id, **book_data.model_dump())

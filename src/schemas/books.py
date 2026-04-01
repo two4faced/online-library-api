@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict
 
+from src.schemas.genres import GenreDTO
+
 
 class AddBookRequestDTO(BaseModel):
     title: str = Field(max_length=90)
@@ -23,6 +25,10 @@ class BookDTO(BaseModel):
     description: str = Field(max_length=2000)
     volume: int = Field(le=1500)
     rating: float = Field(default=0.0, ge=0, le=10)
+
+
+class BookWithGenresDTO(BookDTO):
+    genres: list[GenreDTO]
 
 
 class RequestPatchBookDTO(BaseModel):
