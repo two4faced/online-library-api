@@ -1,4 +1,4 @@
-from src.schemas.reviews import AddReviewRequestDTO, AddReviewDTO
+from src.schemas.reviews import AddReviewRequestDTO, AddReviewDTO, PatchReviewDTO
 from src.services.base import BaseService
 
 
@@ -18,3 +18,16 @@ class ReviewsService(BaseService):
         new_review = await self.db.reviews.add(new_review_data)
         await self.db.commit()
         return new_review
+
+    async def delete_review(self, book_id: int, review_id: int, user_id: int):
+        await self.db.reviews.delete(id=review_id, author_id=user_id, book_id=book_id)
+        await self.db.commit()
+
+    async def change_review(
+        self, review_data: PatchReviewDTO, book_id: int, review_id: int, user_id: int
+    ):
+        await self.db.reviews.change(
+            review_data, exclude_unset=True, book_id=book_id, author_id=user_id, id=review_id
+        )
+        await self.db.commit()
+        return {'status': 200}
