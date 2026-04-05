@@ -1,6 +1,9 @@
-from fastapi import APIRouter, Depends
+from typing import Annotated
 
-from src.dependencies.dependencies import get_db, get_user_id
+from fastapi import APIRouter, Depends
+from fastapi import Query
+
+from src.dependencies.dependencies import get_db, get_user_id, PaginationParameters
 from src.database.db_manager import DBManager
 from src.dependencies.role_checker import author_or_admin_depends
 from src.schemas.books import AddBookRequestDTO, RequestPatchBookDTO
@@ -10,8 +13,15 @@ router = APIRouter(prefix='/books', tags=['books'])
 
 
 @router.get('', summary='get all books')
-async def get_all_books(db: DBManager = Depends(get_db)):
-    return await BooksService(db).get_all_books()
+async def get_all_books(
+    pagination: Annotated[PaginationParameters, Depends()],
+    title: str | None = Query(None, description='book title'),
+    author: str | None = Query(None, description='author of the book'),
+    db: DBManager = Depends(get_db),
+):
+    return await BooksService(db).get_all_books(
+        page=pagination.page, page_size=pagination.page_size, title=title, author=author
+    )
 
 
 @router.get('/{book_id}', summary='get one book by id')

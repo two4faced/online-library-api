@@ -4,8 +4,10 @@ from src.services.base import BaseService
 
 
 class BooksService(BaseService):
-    async def get_all_books(self):
-        return await self.db.books.get_books_with_genres()
+    async def get_all_books(self, page, page_size, title: str | None, author: str | None):
+        return await self.db.books.get_books_with_genres(
+            page=page, page_size=page_size, title=title, author=author
+        )
 
     async def get_one_book(self, book_id: int):
         return await self.db.books.get_one_book_with_genres(id=book_id)

@@ -1,7 +1,8 @@
-from typing import Any
+from typing import Any, Annotated
 
+from pydantic import BaseModel
 from typing_extensions import AsyncGenerator
-from fastapi import Request, Depends
+from fastapi import Request, Depends, Query
 
 from src.database.db import async_session_maker
 from src.database.db_manager import DBManager
@@ -11,6 +12,11 @@ from src.exceptions import (
     NotAuthenticatedHTTPException,
 )
 from src.services.auth import AuthService, auth_service
+
+
+class PaginationParameters(BaseModel):
+    page: Annotated[int, Query(1, ge=1)] = 1
+    page_size: Annotated[int | None, Query(None, ge=1, lt=100)] = 10
 
 
 async def get_db() -> AsyncGenerator[DBManager, Any]:
