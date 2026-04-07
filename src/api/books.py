@@ -5,7 +5,7 @@ from fastapi import Query
 
 from src.dependencies.dependencies import get_db, get_user_id, PaginationParameters
 from src.database.db_manager import DBManager
-from src.dependencies.role_checker import author_or_admin_depends
+from src.dependencies.role_checker import require_author_or_admin
 from src.schemas.books import AddBookRequestDTO, RequestPatchBookDTO
 from src.services.books import BooksService
 
@@ -29,7 +29,7 @@ async def get_one_book(book_id: int, db: DBManager = Depends(get_db)):
     return await BooksService(db).get_one_book(book_id=book_id)
 
 
-@router.post('', summary='add new book', dependencies=[author_or_admin_depends])
+@router.post('', summary='add new book', dependencies=[require_author_or_admin])
 async def add_book(
     book_data: AddBookRequestDTO,
     db: DBManager = Depends(get_db),
@@ -39,13 +39,13 @@ async def add_book(
     return new_book
 
 
-@router.delete('{book_id}', summary='delete book', dependencies=[author_or_admin_depends])
+@router.delete('{book_id}', summary='delete book', dependencies=[require_author_or_admin])
 async def delete_book(book_id: int, db: DBManager = Depends(get_db)):
     await BooksService(db).delete_book(book_id=book_id)
     return {'status': 200}
 
 
-@router.patch('{book_id}', summary='partially change book', dependencies=[author_or_admin_depends])
+@router.patch('{book_id}', summary='partially change book', dependencies=[require_author_or_admin])
 async def change_book(
     book_data: RequestPatchBookDTO, book_id: int, db: DBManager = Depends(get_db)
 ):

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 
 from src.database.db_manager import DBManager
 from src.dependencies.dependencies import get_db, get_user_id
-from src.schemas.reviews import AddReviewRequestDTO, AddReviewDTO, PatchReviewDTO
+from src.schemas.reviews import AddReviewRequestDTO, PatchReviewDTO
 from src.services.reviews import ReviewsService
 
 router = APIRouter(prefix='/books', tags=['reviews'])

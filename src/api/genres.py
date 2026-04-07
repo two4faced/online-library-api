@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 
 from src.database.db_manager import DBManager
 from src.dependencies.dependencies import get_db
+from src.dependencies.role_checker import require_admin
 from src.schemas.genres import AddGenreDTO
 from src.services.genres import GenresService
 
@@ -13,7 +14,7 @@ async def get_all_genres(db: DBManager = Depends(get_db)):
     return await GenresService(db).get_all_genres()
 
 
-@router.post('')
+@router.post('', dependencies=[require_admin])
 async def add_genre(genre_data: AddGenreDTO, db: DBManager = Depends(get_db)):
     new_genre = await GenresService(db).add_genre(genre_data)
     return new_genre

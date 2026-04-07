@@ -16,4 +16,5 @@ class RoleChecker:
         return True
 
 
-author_or_admin_depends = Depends(RoleChecker([UserRole.AUTHOR, UserRole.ADMIN]))
+require_author_or_admin = Depends(RoleChecker([UserRole.AUTHOR, UserRole.ADMIN]))
+require_admin = Depends(RoleChecker([UserRole.ADMIN]))
