@@ -31,3 +31,12 @@ class UserDTO(BaseModel):
 
 class UserWithHashedPasswordDTO(UserDTO):
     hashed_password: str
+
+
+class PatchUserDTO(BaseModel):
+    name: str | None = Field(default=None)
+    surname: str | None = Field(default=None)
+
+
+class AdminPatchUserDTO(PatchUserDTO):
+    role: str | None = Field(default=None)

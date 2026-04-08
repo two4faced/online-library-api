@@ -37,6 +37,14 @@ async def get_me(
     return await UsersService(db).get_me(user_id)
 
 
+@router.get('/user/{user_id}')
+async def get_user(
+    user_id: int,
+    db: DBManager = Depends(get_db),
+):
+    return await UsersService(db).get_user(user_id)
+
+
 @router.post('/logout')
 async def logout(response: Response):
     response.delete_cookie('access_token')

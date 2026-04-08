@@ -24,3 +24,9 @@ class UsersService(BaseService):
 
     async def get_me(self, user_id: int):
         return await self.db.users.get_one(id=user_id)
+
+    async def get_user(
+        self,
+        user_id: int,
+    ):
+        return await self.db.users.get_one(id=user_id)
